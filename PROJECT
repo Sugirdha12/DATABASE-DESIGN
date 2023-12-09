@@ -1,0 +1,618 @@
+CREATE TABLE Customer (
+    CustID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Phone VARCHAR(20),
+    City VARCHAR(20)
+    
+);
+
+INSERT INTO Customer VALUES(101 , 'Ravi' , 'Kumar', '9475221557', 'Coimbatore');
+INSERT INTO Customer VALUES(102 , 'Sugirdha' , 'Ranganathan', '9842308567', 'Chennai');
+INSERT INTO Customer VALUES(104 , 'Thanu' , 'Shree', '8667145367', 'Trichy');
+INSERT INTO Customer VALUES(111 , 'Deva' , 'Dharshini', '9985632147', 'Bangalore');
+INSERT INTO Customer VALUES(143 , 'Aadhersh' , 'Thiyagarajan', '994190367', 'Chennai');
+INSERT INTO Customer VALUES(198 , 'Bhavatharini' , 'Balamurugan', '9785632145', 'Chennai');
+SELECT * FROM Customer
+
+DELETE FROM Customer
+WHERE CustID = 198;
+
+UPDATE Customer
+SET name = 'Raj'
+WHERE student_id = 101;
+
+
+CREATE TABLE driverdetails (
+    DriverID INT PRIMARY KEY,
+    DriverName VARCHAR(50),
+    LastName VARCHAR(50),
+    Phone VARCHAR(20),
+    LicenseNumber VARCHAR(20));
+
+INSERT INTO driverdetails VALUES(101 , 'Raghav' , 'Kumar', '8745632189', '1365472589');
+INSERT INTO driverdetails VALUES(143 , 'Kumar' , 'Varma', '7852146396', '1452789651');
+INSERT INTO driverdetails VALUES(104 , 'Kumara' , 'Vel', '93214587412', '1523147521');
+INSERT INTO driverdetails VALUES(896 , 'Ajju' , 'Mohan', '8563214112', '1452136332');
+INSERT INTO driverdetails VALUES(111 , 'Kunal' , 'Tiwari', '9852146321', '1456321741');
+INSERT INTO driverdetails VALUES(800 , 'Ramesh' , 'Thilak', '9853214569', '1745896565');
+SELECT * FROM driverdetails
+
+CREATE TABLE Vehicledetails (
+    VehicleID INT PRIMARY KEY,
+    Make VARCHAR(50),
+    Model VARCHAR(50),
+    Yearofbuying INT,
+    LicensePlate VARCHAR(20),
+    Capacity INT);
+
+INSERT INTO Vehicledetails VALUES(101 , 'Toyota' , 'Prius', '2020', '1744' , '4');
+INSERT INTO Vehicledetails VALUES(798 , 'Chevrolet' , 'Malibu', '2019', '4475' , '8');
+INSERT INTO Vehicledetails VALUES(143 , 'Hyundai' , 'Elantra', '2017', '1258' , '4');
+INSERT INTO Vehicledetails VALUES(745 , 'Honda' , 'Accord', '2022', '8127' , '8');
+INSERT INTO Vehicledetails VALUES(111 , 'Nissan' , 'Sentra', '2022', '5712' , '4');
+SELECT * FROM Vehicledetails
+
+CREATE TABLE Locationdetails (
+    LocationID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    State VARCHAR(100),
+    Country VARCHAR(100)
+);
+
+INSERT INTO Locationdetails VALUES(101 , 'home' , '14,Anna Nagar', 'Coimbatore', 'Tamilnadu' , 'India');
+INSERT INTO Locationdetails VALUES(424 , 'work' , '21,Raja Street', 'Chennai', 'Tamilnadu' , 'India');
+INSERT INTO Locationdetails VALUES(111 , 'home' , '21,Kalapatii', 'Trichy', 'Tamilnadu' , 'India');
+INSERT INTO Locationdetails VALUES(469 , 'study' , '85,St.Marys', 'Bangalore', 'Karnataka' , 'India');
+INSERT INTO Locationdetails VALUES(143 , 'work' , '47,T Nagar', 'Chennai', 'Tamilnadu' , 'India');
+SELECT * FROM Locationdetails
+
+CREATE TABLE PromoCode (
+    PromoCodeID INT PRIMARY KEY,
+    Code VARCHAR(50),
+    Description VARCHAR(50),
+    DiscountAmount INT,
+    UsageYears INT
+);
+
+INSERT INTO PromoCode VALUES( 900, 'RAP50' , 'Discount of 50', '50' , 2);
+INSERT INTO PromoCode VALUES( 901, 'RAP70' , 'Discount of 70', '70' , 1);
+INSERT INTO PromoCode VALUES( 902, 'RAP80' , 'Discount of 80', '80' , 1);
+INSERT INTO PromoCode VALUES( 903, 'RAP30' , 'Discount of 30', '30' , 3);
+INSERT INTO PromoCode VALUES( 904, 'RAP25' , 'Discount of 25', '25' , 4);
+SELECT * FROM PromoCode
+
+CREATE TABLE RideRequests (
+    RequestID INT PRIMARY KEY,
+    CustID INT,
+    DriverID INT,
+    StartLocationID VARCHAR(200),
+    EndLocationID VARCHAR(200),
+    Status VARCHAR(20),
+    EstimatedFare INT,
+    FOREIGN KEY (CustID) REFERENCES Customer(CustID),
+    FOREIGN KEY (DriverID) REFERENCES driverdetails(DriverID));
+
+INSERT INTO RideRequests VALUES(001 , 101, 101, 'Kalapatti' , 'Gandhipuram', 'Request_Accepted', '250' );
+INSERT INTO RideRequests VALUES(002 , 102, 143, 'T.Nagar' , 'Velachery', 'Request_Accepted', '500' );
+INSERT INTO RideRequests VALUES(003 , 104, 104, 'Anna Nagar' , 'Bus Stand', 'Request_Accepted', '350' );
+INSERT INTO RideRequests VALUES(004 , 111, 896, 'Airport' , 'St.Christ', 'Request_Accepted', '250' );
+INSERT INTO RideRequests VALUES(005 , 143, 800, 'Bus stand' , 'Airport', 'Request_Accepted', '750' );
+SELECT * FROM RideRequests
+
+CREATE TABLE RidesTable (
+    RideID INT PRIMARY KEY,
+    UserID INT,
+    DriverID INT,
+    StartLocationID VARCHAR(200),
+    EndLocationID VARCHAR(200),
+    Fare INT,
+    RideStatus VARCHAR(20),
+    FOREIGN KEY (UserID) REFERENCES Customer(CustID),
+    FOREIGN KEY (DriverID) REFERENCES driverdetails(DriverID)
+);
+
+INSERT INTO RidesTable VALUES(001 , 101, 101, 'Kalapatti' , 'Gandhipuram', '250', 'pickup_confirmed');
+INSERT INTO RidesTable VALUES(002 , 102, 143, 'T.Nagar' , 'Velachery', '500','pickup_declined' );
+INSERT INTO RidesTable VALUES(003 , 104, 104, 'Anna Nagar' , 'Bus Stand', '350', 'drop_complete' );
+INSERT INTO RidesTable VALUES(004 , 111, 896, 'Airport' , 'St.Christ','250','pickup_confirmed' );
+INSERT INTO RidesTable VALUES(005 , 143, 800, 'Bus stand' , 'Airport', '750','drop_complete' );
+SELECT * FROM RidesTable
+
+CREATE TABLE Payment (
+    PaymentID INT PRIMARY KEY,
+    UserID INT,
+    Amount INT,
+    PaymentStatus VARCHAR(20),
+    PaymentMethod VARCHAR(50),
+    FOREIGN KEY (UserID) REFERENCES Customer(CustID)
+);
+
+INSERT INTO Payment VALUES(600 , 101, 250, 'complete' , 'UPI' );
+INSERT INTO Payment VALUES(601 , 102, 500, 'incomplete' , 'nil' );
+INSERT INTO Payment VALUES(602 , 104, 350, 'complete' , 'Cash' );
+INSERT INTO Payment VALUES(603 , 111, 250, 'complete' , 'Card' );
+INSERT INTO Payment VALUES(604 , 143, 750, 'complete' , 'UPI' );
+SELECT * FROM Payment
+
+CREATE TABLE DriverRatings (
+    RatingID INT PRIMARY KEY,
+    UserID INT,
+    DriverID INT,
+    Rating INT,
+    FOREIGN KEY (UserID) REFERENCES Customer(CustID),
+    FOREIGN KEY (DriverID) REFERENCES driverdetails(DriverID)
+);
+
+INSERT INTO DriverRatings VALUES(800 , 101, 101, '4');
+INSERT INTO DriverRatings VALUES(801 , 102, 104, '3');
+INSERT INTO DriverRatings VALUES(802 , 104, 896, '5');
+INSERT INTO DriverRatings VALUES(803 , 111, 111, '2');
+INSERT INTO DriverRatings VALUES(804 , 101, 800, '4');
+SELECT * FROM DriverRatings
+
+CREATE TABLE UserRatings (
+    RatingID INT PRIMARY KEY,
+    UserID INT,
+    DriverID INT,
+    Rating INT,
+    Review VARCHAR(200),
+    FOREIGN KEY (UserID) REFERENCES Customer(CustID),
+    FOREIGN KEY (DriverID) REFERENCES driverdetails(DriverID)
+);
+
+INSERT INTO UserRatings VALUES(200 , 101, 101, '3','pleasant ride');
+INSERT INTO UserRatings VALUES(201 , 102, 104, '0','auto arrived late');
+INSERT INTO UserRatings VALUES(202 , 104, 896, '4','timely arrival');
+INSERT INTO UserRatings VALUES(203 , 111, 111, '3','the ride was safe');
+INSERT INTO UserRatings VALUES(204 , 101, 800, '5','they dropped off in the right time');
+SELECT * FROM UserRatings
+
+CREATE TABLE Promotions (
+    PromoID INT PRIMARY KEY,
+    Code VARCHAR(50),
+    DiscountAmount INT,
+    UsageLimit INT,
+    UserID INT,
+    FOREIGN KEY (UserID) REFERENCES Customer(CustID)
+);
+
+INSERT INTO Promotions VALUES(900 , 'RAP50', 100, 2,101);
+INSERT INTO Promotions VALUES(901 , 'RAP70', 140, 1,102);
+INSERT INTO Promotions VALUES(902 , 'RAP80', 160, 1,104);
+INSERT INTO Promotions VALUES(903 , 'RAP30', 60, 3,111);
+INSERT INTO Promotions VALUES(904 , 'RAP25', 50, 4,101);
+SELECT * FROM Promotions
+
+CREATE TABLE CUSTOMERS (Customer_ID INT PRIMARY KEY , Name VARCHAR(200) NOT NULL ,Phone_number INT NOT NULL ,Gender VARCHAR(200), AGE INT CHECK(AGE>=18));
+INSERT INTO CUSTOMERS VALUES(101 , 'Sugi' , 9842308567, 'female',19);
+INSERT INTO CUSTOMERS VALUES(102 , 'Kiru' , 2147859633, 'female',19);
+INSERT INTO CUSTOMERS VALUES(103 , 'Apar' , 7452136985, 'female',19);
+INSERT INTO CUSTOMERS VALUES(104 , 'aadhersh' , 7413625222, 'male',20);
+INSERT INTO CUSTOMERS VALUES(105 , 'sid' , 7444123741, 'male',21);
+INSERT INTO CUSTOMERS VALUES(106 , 'sanjay' , 7741258963, 'male',20);
+select * from CUSTOMERS
+
+Update
+UPDATE Customer
+SET FirstName = 'Raj'
+WHERE CustID =101; 
+
+DELETE 
+DELETE FROM Customer
+WHERE CustID = 198;
+
+NESTED QUERIES:
+
+SELECT * 
+FROM PromoCode 
+WHERE DiscountAmount > (
+    SELECT AVG(DiscountAmount) 
+    FROM PromoCode
+);
+
+
+
+SELECT *
+FROM PromoCode
+WHERE UsageYears < (SELECT MAX(UsageYears) FROM PromoCode);
+
+SELECT COUNT(*) AS CustomersAboveAverageAge
+FROM CUSTOMERS
+WHERE AGE > (SELECT AVG(AGE) FROM CUSTOMERS);
+
+SELECT * FROM CUSTOMERS
+WHERE AGE = (SELECT MAX(AGE) FROM CUSTOMERS);
+
+SELECT * FROM CUSTOMERS
+WHERE Gender = 'female';
+
+SELECT * 
+FROM RidesTable 
+WHERE RideStatus = 'drop_complete' 
+  AND Fare = (SELECT MIN(Fare) FROM RidesTable WHERE RideStatus = 'drop_complete');
+JOIN:
+SELECT *
+FROM RidesTable
+INNER JOIN Customer ON RidesTable.UserID = Customer.CustID;
+
+SELECT *
+FROM Customer
+LEFT JOIN RidesTable ON Customer.CustID = RidesTable.UserID;
+
+SELECT *
+FROM RidesTable
+RIGHT JOIN Customer ON RidesTable.UserID = Customer.CustID;
+
+SELECT *
+FROM Customer
+FULL OUTER JOIN RidesTable ON Customer.CustID = RidesTable.UserID;
+
+PLSQL:
+CREATE OR REPLACE PROCEDURE InsertPayments IS
+BEGIN
+    INSERT INTO Payment VALUES(600 , 101, 250, 'complete' , 'UPI' );
+    INSERT INTO Payment VALUES(601 , 102, 500, 'incomplete' , 'nil' );
+    INSERT INTO Payment VALUES(602 , 104, 350, 'complete' , 'Cash' );
+    INSERT INTO Payment VALUES(603 , 111, 250, 'complete' , 'Card' );
+    INSERT INTO Payment VALUES(604 , 143, 750, 'complete' , 'UPI' );
+    COMMIT; -- Commits the changes to the database
+END;
+/
+CREATE OR REPLACE PROCEDURE GetCustomerDetailsByID(
+    p_CustomerID IN INT,
+    p_FirstName OUT VARCHAR,
+    p_LastName OUT VARCHAR,
+    p_Phone OUT VARCHAR,
+    p_City OUT VARCHAR
+)
+IS
+BEGIN
+    SELECT FirstName, LastName, Phone, City
+    INTO p_FirstName, p_LastName, p_Phone, p_City
+    FROM Customer
+    WHERE CustID = p_CustomerID;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE UpdateDriverPhone(
+    p_DriverID IN INT,
+    p_NewPhone IN VARCHAR
+)
+IS
+BEGIN
+    UPDATE driverdetails
+    SET Phone = p_NewPhone
+    WHERE DriverID = p_DriverID;
+    COMMIT;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE CalculateAverageRating(
+    p_DriverID IN INT,
+    p_AvgRating OUT NUMBER
+)
+IS
+BEGIN
+    SELECT AVG(Rating)
+    INTO p_AvgRating
+    FROM DriverRatings
+    WHERE DriverID = p_DriverID;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE GetRideHistory(
+    p_CustomerID IN INT
+)
+IS
+BEGIN
+    SELECT *
+    FROM RidesTable
+    WHERE UserID = p_CustomerID;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE ApplyPromoCodeDiscount(
+    p_UserID IN INT,
+    p_PromoCode IN VARCHAR,
+    p_FinalAmount OUT INT
+)
+IS
+    v_Discount INT;
+BEGIN
+    SELECT DiscountAmount
+    INTO v_Discount
+    FROM PromoCode
+    WHERE PromoCodeID = p_PromoCode
+    AND UsageYears >= 1; -- Assuming usage years criteria
+
+    SELECT Amount - v_Discount
+    INTO p_FinalAmount
+    FROM Payment
+    WHERE UserID = p_UserID;
+
+    -- Update Payment table with the final amount after discount
+    UPDATE Payment
+    SET Amount = p_FinalAmount
+    WHERE UserID = p_UserID;
+
+    COMMIT;
+END;
+/
+
+CURSOR:
+
+CREATE OR REPLACE PROCEDURE RetrieveCustomerNames IS
+   CURSOR customer_cursor IS
+      SELECT Name FROM Customers;
+   v_name Customers.Name%TYPE;
+BEGIN
+   OPEN customer_cursor;
+   LOOP
+      FETCH customer_cursor INTO v_name;
+      EXIT WHEN customer_cursor%NOTFOUND;
+      -- Process the data as needed
+      DBMS_OUTPUT.PUT_LINE('Customer Name: ' || v_name);
+   END LOOP;
+   CLOSE customer_cursor;
+END RetrieveCustomerNames;
+/
+
+SET SERVEROUTPUT ON;
+EXEC RetrieveCustomerNames;
+
+CREATE OR REPLACE PROCEDURE RetrieveCustomerIDs IS
+   CURSOR customer_cursor IS
+      SELECT CustomerID FROM Customers;
+   v_id Customers.CustomerID%TYPE;
+BEGIN
+   OPEN customer_cursor;
+   LOOP
+      FETCH customer_cursor INTO v_id;
+      EXIT WHEN customer_cursor%NOTFOUND;
+      -- Process the data as needed
+      DBMS_OUTPUT.PUT_LINE('Customer ID: ' || v_id);
+   END LOOP;
+   CLOSE customer_cursor;
+END RetrieveCustomerIDs;
+/
+
+CREATE OR REPLACE PROCEDURE RetrieveCustomerPhoneNumbers IS
+   CURSOR customer_cursor IS
+      SELECT Phone FROM Customers;
+   v_phone Customers.Phone%TYPE;
+BEGIN
+   OPEN customer_cursor;
+   LOOP
+      FETCH customer_cursor INTO v_phone;
+      EXIT WHEN customer_cursor%NOTFOUND;
+      -- Process the data as needed
+      DBMS_OUTPUT.PUT_LINE('Customer Phone: ' || v_phone);
+   END LOOP;
+   CLOSE customer_cursor;
+END RetrieveCustomerPhoneNumbers;
+/
+
+CREATE OR REPLACE PROCEDURE RetrieveCustomerPhoneNumbers IS
+   CURSOR customer_cursor IS
+      SELECT Phone FROM Customers;
+   v_phone Customers.Phone%TYPE;
+BEGIN
+   OPEN customer_cursor;
+   LOOP
+      FETCH customer_cursor INTO v_phone;
+      EXIT WHEN customer_cursor%NOTFOUND;
+      -- Process the data as needed
+      BEGIN
+         DBMS_OUTPUT.PUT_LINE('Customer Phone: ' || v_phone);
+      EXCEPTION
+         WHEN OTHERS THEN
+            DBMS_OUTPUT.PUT_LINE('Error occurred: ' || SQLERRM);
+      END;
+   END LOOP;
+   CLOSE customer_cursor;
+EXCEPTION
+   WHEN OTHERS THEN
+      DBMS_OUTPUT.PUT_LINE('Error occurred: ' || SQLERRM);
+END RetrieveCustomerPhoneNumbers;
+/
+
+CREATE OR REPLACE PROCEDURE RetrieveCustomerDetails IS
+   CURSOR customer_cursor IS
+      SELECT * FROM Customers;
+   v_customer Customers%ROWTYPE;
+BEGIN
+   OPEN customer_cursor;
+   LOOP
+      FETCH customer_cursor INTO v_customer;
+      EXIT WHEN customer_cursor%NOTFOUND;
+      -- Process the data as needed
+      DBMS_OUTPUT.PUT_LINE('Customer ID: ' || v_customer.CustomerID || ', Name: ' || v_customer.Name || ', Phone: ' || v_customer.Phone || ', City: ' || v_customer.City);
+   END LOOP;
+   CLOSE customer_cursor;
+END RetrieveCustomerDetails;
+/
+
+DECLARE
+   CURSOR customer_cursor IS
+      SELECT * FROM Customers ORDER BY Name;
+   v_customer Customers%ROWTYPE;
+BEGIN
+   OPEN customer_cursor;
+   LOOP
+      FETCH customer_cursor INTO v_customer;
+      EXIT WHEN customer_cursor%NOTFOUND;
+      -- Process the data as needed
+      DBMS_OUTPUT.PUT_LINE('Customer ID: ' || v_customer.CustomerID || ', Name: ' || v_customer.Name);
+   END LOOP;
+   CLOSE customer_cursor;
+END;
+/
+
+
+DECLARE
+   v_customer_id Customers.Customer_ID%TYPE;
+   v_customer_name Customers.Name%TYPE;
+   CURSOR customer_cursor IS
+      SELECT Customer_ID, Name FROM Customers;
+BEGIN
+   OPEN customer_cursor;
+   LOOP
+      FETCH customer_cursor INTO v_customer_id, v_customer_name;
+      EXIT WHEN customer_cursor%NOTFOUND;
+      -- Process the data as needed
+      DBMS_OUTPUT.PUT_LINE('Customer ID: ' || v_customer_id || ', Name: ' || v_customer_name);
+   END LOOP;
+   CLOSE customer_cursor;
+END;
+/
+DECLARE
+   v_driver_id driverdetails.DriverID%TYPE;
+   v_driver_name driverdetails.DriverName%TYPE;
+   CURSOR driver_cursor IS
+      SELECT DriverID, DriverName FROM driverdetails;
+BEGIN
+   OPEN driver_cursor;
+   LOOP
+      FETCH driver_cursor INTO v_driver_id, v_driver_name;
+      EXIT WHEN driver_cursor%NOTFOUND;
+      -- Process the data as needed
+      DBMS_OUTPUT.PUT_LINE('Driver ID: ' || v_driver_id || ', Name: ' || v_driver_name);
+   END LOOP;
+   CLOSE driver_cursor;
+END;
+/
+
+DECLARE
+   v_vehicle_id Vehicledetails.VehicleID%TYPE;
+   v_vehicle_make Vehicledetails.Make%TYPE;
+   CURSOR vehicle_cursor IS
+      SELECT VehicleID, Make FROM Vehicledetails;
+BEGIN
+   OPEN vehicle_cursor;
+   LOOP
+      FETCH vehicle_cursor INTO v_vehicle_id, v_vehicle_make;
+      EXIT WHEN vehicle_cursor%NOTFOUND;
+      -- Process the data as needed
+      DBMS_OUTPUT.PUT_LINE('Vehicle ID: ' || v_vehicle_id || ', Make: ' || v_vehicle_make);
+   END LOOP;
+   CLOSE vehicle_cursor;
+END;
+/
+
+DECLARE
+   v_location_id Locationdetails.LocationID%TYPE;
+   v_location_name Locationdetails.Name%TYPE;
+   CURSOR location_cursor IS
+      SELECT LocationID, Name FROM Locationdetails;
+BEGIN
+   OPEN location_cursor;
+   LOOP
+      FETCH location_cursor INTO v_location_id, v_location_name;
+      EXIT WHEN location_cursor%NOTFOUND;
+      -- Process the data as needed
+      DBMS_OUTPUT.PUT_LINE('Location ID: ' || v_location_id || ', Name: ' || v_location_name);
+   END LOOP;
+   CLOSE location_cursor;
+END;
+/
+
+
+
+TRIGGER:
+
+CREATE OR REPLACE TRIGGER ride_request_trigger
+AFTER INSERT ON RideRequests
+FOR EACH ROW
+BEGIN
+    -- Assuming you want to update the status in RidesTable when a new ride request is made
+    UPDATE RidesTable
+    SET RideStatus = 'New Request'
+    WHERE RideID = :NEW.RequestID;
+    DBMS_OUTPUT.PUT_LINE('New ride request received for RideID: ' || :NEW.RequestID);
+    -- Additional logic based on the new RideRequest record
+END;
+/
+
+CREATE OR REPLACE TRIGGER ride_table_trigger
+AFTER INSERT ON RidesTable
+FOR EACH ROW
+BEGIN
+    -- Assuming you want to update the RideRequests table status when a new ride is started
+    UPDATE RideRequests
+    SET Status = 'Ride Started'
+    WHERE RequestID = :NEW.RideID;
+    DBMS_OUTPUT.PUT_LINE('New ride started for RideID: ' || :NEW.RideID);
+    -- Additional logic based on the new RidesTable record
+END;
+/
+
+CREATE OR REPLACE TRIGGER driver_ratings_trigger
+AFTER INSERT ON DriverRatings
+FOR EACH ROW
+BEGIN
+    -- Assuming you want to perform some action when a new driver rating is received
+    IF :NEW.Rating > 4 THEN
+        DBMS_OUTPUT.PUT_LINE('High rating received for DriverID: ' || :NEW.DriverID);
+        -- Perform specific action for high ratings
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Low rating received for DriverID: ' || :NEW.DriverID);
+        -- Perform specific action for low ratings
+    END IF;
+    -- Additional logic based on the new DriverRatings record
+END;
+/
+
+CREATE OR REPLACE TRIGGER user_ratings_trigger
+AFTER INSERT ON UserRatings
+FOR EACH ROW
+BEGIN
+    -- Assuming you want to notify or perform an action when a new user rating is received
+    IF :NEW.Rating > 3 THEN
+        DBMS_OUTPUT.PUT_LINE('Positive rating received for UserID: ' || :NEW.UserID);
+        -- Perform specific action for positive ratings
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Neutral or negative rating received for UserID: ' || :NEW.UserID);
+        -- Perform specific action for neutral or negative ratings
+    END IF;
+    -- Additional logic based on the new UserRatings record
+END;
+/
+
+VIEW:
+CREATE VIEW RideInfo AS
+SELECT 
+    R.RequestID,
+    C.FirstName AS CustomerFirstName,
+    C.LastName AS CustomerLastName,
+    D.DriverName,
+    V.Make AS VehicleMake,
+    V.Model AS VehicleModel,
+    L.City AS StartCity,
+    L1.City AS EndCity,
+    R.EstimatedFare,
+    R.Status AS RideStatus
+FROM RideRequests R
+JOIN Customer C ON R.CustID = C.CustID
+JOIN driverdetails D ON R.DriverID = D.DriverID
+JOIN Vehicledetails V ON R.DriverID = V.VehicleID
+JOIN Locationdetails L ON R.StartLocationID = L.LocationID
+JOIN Locationdetails L1 ON R.EndLocationID = L1.LocationID;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
